@@ -1,10 +1,21 @@
+import java.util.Scanner;
+
 public class Merci {
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+        System.out.println("Hello! I am Merci!!");
+        System.out.println("What can I do for you?");
+        System.out.println();
+
+        Scanner sc = new Scanner(System.in);
+        String echo;
+
+        while (true){
+            echo = sc.nextLine();
+            if (echo.equalsIgnoreCase("bye")) {
+                System.out.println("bye! hope to see you again soon!!");
+                break;
+            }
+            System.out.println(echo);
+        }
     }
 }
