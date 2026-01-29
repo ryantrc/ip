@@ -17,14 +17,14 @@ public class Merci {
                 for (int i = 0; i < taskCount; i++){
                     System.out.println((i + 1) + ".  " + tasks[i]);
                 }
-            }
-            if (input.equalsIgnoreCase("bye")){
+            } else if (input.equalsIgnoreCase("bye")){
                 System.out.println("bye! see you again soon!");
                 break;
+            } else {
+                tasks[taskCount] = input;
+                taskCount++;
+                System.out.println("added: " + tasks[taskCount - 1]);
             }
-            tasks[taskCount] = input;
-            taskCount++;
-            System.out.println("added: " + tasks[taskCount - 1]);
         }
     }
 }
