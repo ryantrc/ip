@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Merci {
@@ -30,11 +31,54 @@ public class Merci {
                 tasks[index].markAsNotDone();
                 System.out.println("OK, I've marked this task as not done yet: ");
                 System.out.println(tasks[index].toString());
-            }
-            else {
-                tasks[taskCount] = new Task(input);
+            } else {
+
+                Task newTask;
+
+                if (input.toLowerCase().startsWith("deadline")){
+                    String rest = input.substring(9).trim();
+                    String[] parts = rest.split("/by", 2);
+
+                    if (parts.length == 2){
+                        String desc = parts[0];
+                        String by = parts[1];
+                        newTask = new Deadline(desc, by);
+                    } else {
+                        // malformed -> treat as todo
+                        newTask = new toDo(input);
+                    }
+                } else if (input.toLowerCase().startsWith("event")){
+                    String rest = input.substring(6).trim();
+                    String[] parts = rest.split("/from", 2);
+
+                    if (parts.length == 2){
+                        String desc = parts[0].trim();
+                        String[] parts2 = parts[1].split("/to", 2);
+                        if (parts2.length == 2){
+                            String from = parts2[0];
+                            String to = parts2[1];
+                            newTask = new Event(desc, from, to);
+                        } else {
+                            // malformed -> treat as todo
+                            newTask = new toDo(input);
+                        }
+                    } else {
+                        // malformed -> treat as todo
+                        newTask = new toDo(input);
+                    }
+                } else if (input.toLowerCase().startsWith("todo")){
+                    String desc = input.substring(5).trim();
+                    newTask = new toDo(desc);
+                } else {
+                    newTask = new toDo(input);
+                }
+
+                tasks[taskCount] = newTask;
                 taskCount++;
-                System.out.println("Added: " + tasks[taskCount - 1].getDescription());
+
+                System.out.println("Got it! I've added this task: ");
+                System.out.println(newTask.toString());
+                System.out.println("You now have " + taskCount + " tasks in the list");
             }
         }
     }
