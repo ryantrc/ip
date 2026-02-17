@@ -1,5 +1,9 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.File;
+
 
 public class Merci {
     private static void printError (String errorMessage){
@@ -12,7 +16,8 @@ public class Merci {
         System.out.println("What can I do for you?\n");
 
         Scanner sc = new Scanner(System.in);
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>();
+        //Task[] tasks = new Task[100];
         int taskCount = 0;
         while (true){
             String input = sc.nextLine();
@@ -20,7 +25,7 @@ public class Merci {
                 if (input.equalsIgnoreCase("list")) {
                     System.out.println("Here are the tasks in your list: ");
                     for (int i = 0; i < taskCount; i++) {
-                        System.out.println((i + 1) + "." + tasks[i].toString());
+                        System.out.println((i + 1) + "." + tasks.get(i).toString());
                     }
                 } else if (input.equalsIgnoreCase("bye")) {
                     System.out.println("bye! see you again soon!");
@@ -31,18 +36,33 @@ public class Merci {
                     if (index < 0 || index > taskCount) {
                         throw new MerciException("Invalid task number!!");
                     }
-                    tasks[index].markAsDone();
+                    tasks.get(index).markAsDone();
                     System.out.println("Nice! I've marked this as done: ");
-                    System.out.println(tasks[index].toString());
+                    System.out.println(tasks.get(index).toString());
                 } else if (input.toLowerCase().startsWith("unmark ")) {
                     int index = Integer.parseInt(input.substring(7).trim()) - 1;
 
                     if (index < 0 || index >= taskCount){
                         throw new MerciException("Invalid task number!!");
                     }
-                    tasks[index].markAsNotDone();
+                    tasks.get(index).markAsNotDone();
                     System.out.println("OK, I've marked this task as not done yet: ");
-                    System.out.println(tasks[index].toString());
+                    System.out.println(tasks.get(index).toString());
+                } else if (input.toLowerCase().startsWith("delete ")){
+                    int index = Integer.parseInt(input.substring(7).trim()) -1;
+
+                    if (index < 0 || index >= taskCount){
+                        throw new MerciException("Invalid task number!!");
+                    }
+
+                    System.out.println("------------------------------------------------");
+                    System.out.println("Noted. Ive removed this task: ");
+                    System.out.println(tasks.get(index).toString());
+                    tasks.remove(index);
+                    taskCount--;
+                    System.out.println("You have " + taskCount + " tasks in your list now");
+                    System.out.println("------------------------------------------------");
+
                 } else {
 
                     Task newTask;
@@ -85,7 +105,7 @@ public class Merci {
                         throw new MerciException("I dont know what to do T_T");
                     }
 
-                    tasks[taskCount] = newTask;
+                    tasks.add(newTask);
                     taskCount++;
 
                     System.out.println("Got it! I've added this task: ");
