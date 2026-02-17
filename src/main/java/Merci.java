@@ -18,6 +18,7 @@ public class Merci {
         Scanner sc = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
         //Task[] tasks = new Task[100];
+        String filePath = "./"
         int taskCount = 0;
         while (true){
             String input = sc.nextLine();
