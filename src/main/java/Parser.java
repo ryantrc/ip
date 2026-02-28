@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Parser {
     public static Command parse(String input) throws MerciException {
         String trimmed = input.trim();
@@ -49,6 +51,19 @@ public class Parser {
             String from = parts2[0].trim();
             String to = parts2[1].trim();
             return new AddCommand(new Event(desc, from, to));
+        }
+
+        if (lower.equals("schedule")){
+            return new ScheduleCommand(null);
+        }
+
+        if (lower.startsWith("schedule ")) {
+            String rest = trimmed.substring(8).trim();
+            try {
+                return new ScheduleCommand(LocalDate.parse(rest));
+            } catch (Exception e){
+                throw new MerciException("Enter date in yyyy-mm-dd format!!");
+            }
         }
 
         throw new MerciException("I dont know what to do T_T");
