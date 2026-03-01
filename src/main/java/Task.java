@@ -32,6 +32,10 @@ public class Task {
         this.isDone = false;
     }
 
+    public boolean contains(String keyword){
+        return this.description.toLowerCase().contains(keyword.toLowerCase());
+    }
+
     public String getDescription(){
         return this.description;
     }

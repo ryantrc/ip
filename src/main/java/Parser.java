@@ -66,6 +66,15 @@ public class Parser {
             }
         }
 
+        if (lower.startsWith("find ")){
+            String rest = trimmed.substring(4).trim();
+            try {
+                return new FindCommand(rest);
+            } catch (Exception e){
+                throw new MerciException("Enter a valid keyword!");
+            }
+        }
+
         throw new MerciException("I dont know what to do T_T");
     }
 
