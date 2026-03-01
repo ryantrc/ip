@@ -99,11 +99,11 @@ public class Storage {
         }
         if (t instanceof Deadline) {
             Deadline d = (Deadline) t;
-            return "D|" + done + "|" + d.description + "|" + d.by;
+            return "D|" + done + "|" + d.description + "|" + d.by.toString();
         }
         if (t instanceof Event) {
             Event e = (Event) t;
-            return "E|" + done + "|" + e.description + "|" + e.from + "|" + e.to;
+            return "E|" + done + "|" + e.description + "|" + e.from.toString() + "|" + e.to.toString();
         }
 
         return "T|" + done + "|" + t.description;

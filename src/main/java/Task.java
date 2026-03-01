@@ -1,5 +1,6 @@
 import jdk.jfr.Description;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -48,11 +49,10 @@ public class Task {
 
 class Deadline extends Task {
 
-    protected LocalDate by;
+    protected LocalDateTime by;
 
     public Deadline (String description, String by) throws MerciException {
         super(description);
-        this.by = LocalDate.parse(by);
 
         if (description == null || description.trim().isEmpty()){
             throw new MerciException("Your deadline cannot be empty!!");
@@ -61,21 +61,23 @@ class Deadline extends Task {
         if (by == null || by.trim().isEmpty()){
             throw new MerciException("Include a date to be done by!!");
         }
+
+        this.by = DateTimeUtil.parseDateTime(by);
     }
 
     @Override
     public boolean occursOn(LocalDate date){
-        return by.equals(date);
+        return by.toLocalDate().equals(date);
     }
 
     @Override
     public LocalDate getSortDate(){
-        return by;
+        return by.toLocalDate();
     }
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
-        return "[D]" + super.toString() + " (by: " + by.format(formatter) + ")";
+        return "[D]" + super.toString() + " (by: " + DateTimeUtil.formatDateTime(by) + ")";
     }
 }
 
@@ -96,37 +98,45 @@ class toDo extends Task {
 }
 
 class Event extends Task {
-    protected LocalDate from;
-    protected LocalDate to;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
     public Event(String description, String from, String to) throws MerciException {
         super(description);
-        this.from = LocalDate.parse(from);
-        this.to = LocalDate.parse(to);
 
-        if (description == null || description.trim().isEmpty()){
+        if (description == null || description.trim().isEmpty()) {
             throw new MerciException("event cannot be empty!!");
         }
+        if (from == null || to == null || from.trim().isEmpty() || to.trim().isEmpty()) {
+            throw new MerciException("Your event needs a to and from date/time!!");
+        }
 
-        if (from == null || to == null || from.trim().isEmpty() || to.trim().isEmpty()){
-            throw new MerciException("Your event needs a to and from date!!");
+        this.from = DateTimeUtil.parseDateTime(from);
+        this.to = DateTimeUtil.parseDateTime(to);
+
+        if (this.to.isBefore(this.from)) {
+            throw new MerciException("Event end must be after start!");
         }
     }
 
     @Override
-    public boolean occursOn(LocalDate date){
-        return (!date.isBefore(from) && !date.isAfter(to));
+    public boolean occursOn(LocalDate date) {
+        // schedule is by date (not by time), so check date range inclusive
+        LocalDate dFrom = from.toLocalDate();
+        LocalDate dTo = to.toLocalDate();
+        return (!date.isBefore(dFrom)) && (!date.isAfter(dTo));
     }
 
     @Override
-    public LocalDate getSortDate(){
-        return from;
+    public LocalDate getSortDate() {
+        return from.toLocalDate();
     }
 
     @Override
     public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
-        return "[E]" + super.toString() + " (from: " + from.format(formatter) + " to: " + to.format(formatter) + " )";
+        return "[E]" + super.toString()
+                + " (from: " + DateTimeUtil.formatDateTime(from)
+                + " to: " + DateTimeUtil.formatDateTime(to) + ")";
     }
 }
 
