@@ -9,7 +9,7 @@ as scheduling based on chronological order of date. Merci can also list out all 
 date. Lastly Merci is able to find tasks based on 
 searching for the keyword. 
 
-## Adding Todos
+## Todos
 A type of task that Merci can keep track of. It does not have any date associated 
 with it.
 
@@ -26,12 +26,13 @@ Output:
 Input: todo buy carrots
 
 Output: 
+
 ![img_2.png](img_2.png)
 
 
 
 
-## Adding deadlines
+## Deadlines
 
 A type of task where the user has to input a deadline for it to be done by.
 
@@ -48,7 +49,7 @@ Output:
 
 ![img_3.png](img_3.png)
 
-## Adding events
+## Events
 
 Events are a type of task that have a start and end date that the user has to key in.
 
