@@ -4,6 +4,16 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles loading and saving of the current task list to a text file located at a given file path.
+ *
+ * Each file is stored as a single line in this format:
+ * <ul>
+ *     <li>T|doneFlag|description</li>
+ *     <li>D|doneFlag|description|by</li>
+ *     <li>E|doneFlag|description|from|to</li>
+ * </ul>
+ */
 public class Storage {
     private final Path path;
 
@@ -38,6 +48,13 @@ public class Storage {
     }
 
     /** Saves tasks to disk. Creates data folder if missing. */
+    /**
+     * Saves all tasks to a text file at the given file location, overwriting the file every time.
+     * Creates parent directories of they do not exist.
+     *
+     * @param tasks Task list to be saved.
+     * @throws IOException If writing fails.
+     */
     public void save(List<Task> tasks) throws IOException {
         Path parent = path.getParent();
         if (parent != null) {
@@ -51,8 +68,12 @@ public class Storage {
         Files.write(path, lines);
     }
 
-    // ---------- Helpers ----------
-
+    /**
+     * Parses a single line into a Task instance
+     * @param line Encoded task line.
+     * @return parsed Task.
+     * @throws Exception If the line is corrupted or has an unknown format.
+     */
     private Task parseLine(String line) throws Exception {
         // T|1|read book
         // D|0|return book|June 6th
@@ -91,6 +112,12 @@ public class Storage {
         return task;
     }
 
+    /**
+     * Encodes a task into a single line string suitable for saving.
+     *
+     * @param t Task to encode.
+     * @return Encoded string representation.
+     */
     private String encode(Task t) {
         String done = t.isDone ? "1" : "0";
 

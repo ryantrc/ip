@@ -1,6 +1,19 @@
 import java.time.LocalDate;
 
+/**
+ * Parses raw user input into executable command objects (e.g. AddCommand, ByeCommand, FindCommand, ListCommand etc).
+ *
+ * Throws MerciException for invalid command formats.
+ */
 public class Parser {
+
+    /**
+     * Parses a user input into a corresponding command.
+     *
+     * @param input Raw user input.
+     * @return Parsed {@link Command} instance.
+     * @throws MerciException If the command is unknown or badly formatted.
+     */
     public static Command parse(String input) throws MerciException {
         String trimmed = input.trim();
         String lower = trimmed.toLowerCase();
@@ -78,6 +91,13 @@ public class Parser {
         throw new MerciException("I dont know what to do T_T");
     }
 
+    /**
+     * Parses an integer index from a string
+     *
+     * @param s
+     * @return Parsed Integer.
+     * @throws MerciException
+     */
     private static int parseIndex(String s) throws MerciException {
         try {
             return Integer.parseInt(s.trim());

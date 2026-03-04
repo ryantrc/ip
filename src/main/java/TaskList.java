@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Creates an arrayList of Task objects and provides basic operations used by the commands.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks;
 
@@ -8,6 +11,11 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Creates a task list initialised with the given tasks.
+     *
+     * @param tasks Initial tasks; if null then empty list is used.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = (tasks == null) ? new ArrayList<>() : tasks;
     }
@@ -28,6 +36,12 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Returns the task list as a list.
+     * Used for saving tasks through storage.
+     *
+     * @return List view of tasks.
+     */
     public List<Task> asList() {
         return tasks;
     }
