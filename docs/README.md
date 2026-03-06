@@ -1,6 +1,6 @@
 # Merci User Guide
 
-![img.png](img.png)
+![img_10.png](img_10.png)
 
 Merci is a personalised chatbot that helps users to keep track of their to-do list. 
 
